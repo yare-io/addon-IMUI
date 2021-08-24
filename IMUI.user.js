@@ -209,7 +209,8 @@ switch(e.t) {
                          {
                     onclick(e) {
                         e.preventDefault();
-                        document.removeEventListener('click', eventHandler);
+                        e.stopPropagation()
+                        document.removeEventListener('click', state.eventHandler);
                         setState({active: false, eventHandler: null});
                     }
                 },
