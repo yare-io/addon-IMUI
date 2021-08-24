@@ -181,6 +181,41 @@ switch(e.t) {
                 },
             }, Object.entries(props.options).map(opt => H('option', {value: opt[1], selected: opt[1] == value}, opt[0])));
         },
+        pickSpot(props, state, setState) {
+            let {active=false} = state;
+            if(!active) {
+                return H('button',
+                         {
+                    onclick(ev) {
+                        ev.preventDefault();
+                        let eventHandler = (e) => {
+                            let x = e.clientX;
+                            let y = e.clientY;
+                            let board_x = x*multiplier - offsetX;
+                            let board_y = y*multiplier - offsetY;
+                            document.removeEventListener('click', eventHandler);
+                            sendData('UI', {key: props.key, value: [board_x, board_y]});
+                            setState({active: false, eventHandler: null});
+                        };
+                        setState({active: true, eventHandler});
+                        setTimeout(() => {
+                            document.addEventListener('click', eventHandler)
+                        }, 0);
+                    }
+                },
+                         props.name);
+            } else {
+                return H('button',
+                         {
+                    onclick(e) {
+                        e.preventDefault();
+                        document.removeEventListener('click', eventHandler);
+                        setState({active: false, eventHandler: null});
+                    }
+                },
+                         "Cancel");
+            }
+        },
         col(props, state) {
             let {items} = props;
             if(!items) {

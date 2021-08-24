@@ -42,6 +42,10 @@
             stack[0].push({t: 'select', options, key, val});
             return val;
         },
+        pickSpot(name, {key = name} = {}) {
+            stack[0].push({t: 'pickSpot', name, key});
+            return UIState[key];
+        },
         beginCol({grow = false} = {}) {
             let newCol = [];
             stack[0].push({t: 'col', items: newCol, key: idkey++, grow});
