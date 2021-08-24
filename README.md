@@ -32,3 +32,6 @@ UI.endCol();
 
 UI.done();
 ```
+
+![image](https://user-images.githubusercontent.com/1445195/130674929-46198721-976b-475f-acbb-3f9f5b379f91.png)
+
