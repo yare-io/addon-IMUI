@@ -5,7 +5,7 @@
     }
     let idkey = 0;
     let group = [];
-    let stack = [];
+    let stack = [group];
     var UI = {
         done() {
             UIChan.send(group);
