@@ -5,8 +5,19 @@
     }
     let idkey = 0;
     let group = [];
-    let stack = [group];
+    let stack = [];
     var UI = {
+        tick() {
+            let data = channels.recv('UI');
+            if(data) {
+                for(var d of data) {
+                    UIState[d.key] = d.value;
+                }
+            }
+            idkey = 0;
+            group = [];
+            stack = [group];
+        },
         done() {
             UIChan.send(group);
         },
@@ -39,6 +50,9 @@
         },
         select(key, options, {def} = {}) {
             let val = UIState[key] ?? def;
+            if(Array.isArray(options)) {
+                options = Object.fromEntries(options.map(opt => ([opt, opt])));
+            }
             stack[0].push({t: 'select', options, key, val});
             return val;
         },
@@ -53,12 +67,6 @@
         },
         endCol() {
             stack.shift();
-        }
-    }
-    let data = channels.recv('UI');
-    if(data) {
-        for(var d of data) {
-            UIState[d.key] = d.value;
         }
     }
 }
