@@ -7,17 +7,6 @@
     let group = [];
     let stack = [group];
     var UI = {
-        tick() {
-            let data = channels.recv('UI');
-            if(data) {
-                for(var d of data) {
-                    UIState[d.key] = d.value;
-                }
-            }
-            idkey = 0;
-            group = [];
-            stack = [group];
-        },
         done() {
             UIChan.send(group);
         },
@@ -67,6 +56,12 @@
         },
         endCol() {
             stack.shift();
+        }
+    }
+    let data = channels.recv('UI');
+    if(data) {
+        for(var d of data) {
+            UIState[d.key] = d.value;
         }
     }
 }
